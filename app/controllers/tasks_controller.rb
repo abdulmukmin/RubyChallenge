@@ -1,5 +1,7 @@
 class TasksController < ApplicationController
+  before_action :authorize_task, only: [:show, :update, :destroy]
   before_action :set_task, only: [:show, :update, :destroy]
+
 
   # GET /tasks
   def index
@@ -97,5 +99,12 @@ class TasksController < ApplicationController
       dateNow = DateTime.now.to_date
       dateInput = params["due_date"].to_date
       dateInput < dateNow
+    end
+
+    def authorize_task
+      task = Task.find(params[:id])
+      if task.user_id != current_user.id
+        render json: {status: 400, message: "Unauthorize access!"}, status: 400
+      end
     end
 end
