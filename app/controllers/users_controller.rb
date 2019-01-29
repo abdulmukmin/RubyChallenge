@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   wrap_parameters :user, include: [:email, :password, :password_confirmation]
   before_action :set_user, only: [:show, :update, :destroy]
-  skip_before_action :authenticate_request, :only => [:index, :create]
+  skip_before_action :authenticate_request, :only => [ :create]
 
   # GET /users
   def index

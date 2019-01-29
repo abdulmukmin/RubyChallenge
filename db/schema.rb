@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_28_062148) do
+ActiveRecord::Schema.define(version: 2019_01_29_000338) do
+
+  create_table "tasks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "description"
+    t.string "due_date"
+    t.string "priority"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "fk_rails_4d2a9e4d7e"
+  end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email"
@@ -20,4 +30,5 @@ ActiveRecord::Schema.define(version: 2019_01_28_062148) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "tasks", "users"
 end
