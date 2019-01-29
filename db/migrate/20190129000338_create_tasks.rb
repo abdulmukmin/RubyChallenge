@@ -2,8 +2,8 @@ class CreateTasks < ActiveRecord::Migration[5.2]
   def change
     create_table :tasks do |t|
       t.string :description
-      t.string :due_date
-      t.string :priority
+      t.date :due_date
+      t.integer :priority
       t.bigint :user_id
 
       t.timestamps
