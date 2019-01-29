@@ -1,10 +1,45 @@
-require 'time'
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :update, :destroy]
 
   # GET /tasks
   def index
     @tasks = Task.where("user_id = ?", current_user.id) 
+    render json: @tasks
+  end
+
+  # GET /tasks/duedates/asc
+  def index_duedates_asc
+    @tasks = Task.where("user_id = ?", current_user.id).order(due_date: :asc)
+    render json: @tasks
+  end
+
+  # GET /tasks/duedates/desc
+  def index_duedates_desc
+    @tasks = Task.where("user_id = ?", current_user.id).order(due_date: :desc)
+    render json: @tasks
+  end
+
+  # GET /tasks/description/asc
+  def index_description_asc
+    @tasks = Task.where("user_id = ?", current_user.id).order(description: :asc)
+    render json: @tasks
+  end
+
+  # GET /tasks/description/desc
+  def index_description_desc
+    @tasks = Task.where("user_id = ?", current_user.id).order(description: :desc)
+    render json: @tasks
+  end
+
+      # GET /tasks/priority/asc
+  def index_priority_asc
+    @tasks = Task.where("user_id = ?", current_user.id).order(priority: :asc)
+    render json: @tasks
+  end
+
+  # GET /tasks/priority/desc
+  def index_priority_desc
+    @tasks = Task.where("user_id = ?", current_user.id).order(priority: :desc)
     render json: @tasks
   end
 
@@ -61,6 +96,6 @@ class TasksController < ApplicationController
     def validate_date
       dateNow = DateTime.now.to_date
       dateInput = params["due_date"].to_date
-      return dateInput < dateNow
+      dateInput < dateNow
     end
 end
