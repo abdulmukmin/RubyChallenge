@@ -7,12 +7,18 @@ Feature :
 
 replace "api/"  with http://localhost:3000/
 
-Make sure ruby on rails can run propperly in your system
+Attention :
+- JSONWEBTOKEN need secret key in config/master.key, you can generate new master key by run 
+        
+        bundle exec rails runner "puts ActiveSupport::EncryptedConfiguration.generate_key"
 
+
+How to Use:
 - rails s to run
 - rake db:create to create db
 - rake db:migrate to run migration
 
+Make sure ruby on rails can run propperly in your system
 # Users Collection
 
 ## Sign Up User
