@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
-  before_action :authorize_task, only: [:show, :update, :destroy]
-  before_action :set_task, only: [:show, :update, :destroy]
+  before_action :authorize_task, only: [:show, :update, :destroy, :changestatus]
+  before_action :set_task, only: [:show, :update, :destroy, :changestatus]
 
 
   # GET /tasks
@@ -47,6 +47,18 @@ class TasksController < ApplicationController
 
   # GET /tasks/1
   def show
+    render json: @task
+  end
+
+  # PATCH /tasks/changestatus
+  def changestatus
+    if @task["status"] != "done"
+      @task["status"] = "done"
+    else 
+      @task["status"] = "not done"
+      @task.save
+    end
+    @task.save
     render json: @task
   end
 
