@@ -18,6 +18,7 @@ gem 'bcrypt', '~> 3.1.7'
 # add more
 gem 'jwt'
 gem 'simple_command'
+gem 'figaro'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
