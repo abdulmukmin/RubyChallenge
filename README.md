@@ -5,7 +5,13 @@ Feature :
 - Password encryption using gem "bcrypt"
 - Login random token using gem "JSONWEBTOKEN"
 
-replace "api/"  with http://localhost:3000/ 
+replace "api/"  with http://localhost:3000/
+
+Make sure ruby on rails can run propperly in your system
+
+- rails s to run
+- rake db:create to create db
+- rake db:migrate to run migration
 
 # Users Collection
 
@@ -323,12 +329,13 @@ Change user todo completion status (only owned by user)
                 
             {
                 "status": "not done",
-                "_id": "5c445492f0f6974757d8bac1",
-                "__v": 0,
-                "description": "test",
-                "targetDate": "2019-01-21T17:00:00.000Z",
-                "title": "test",
-                "doneDate": "2019-01-20T11:54:11.312Z"
+                "id": 5,
+                "description": "description.....",
+                "due_date": "2019-02-01",
+                "priority": 0,
+                "user_id": 11,
+                "created_at": "2019-01-30T06:01:01.000Z",
+                "updated_at": "2019-01-30T07:13:14.000Z"
             }
     
     + Code:200
@@ -337,12 +344,13 @@ Change user todo completion status (only owned by user)
                 
             {
                 "status": "done",
-                "_id": "5c445492f0f6974757d8bac1",
-                "__v": 0,
-                "description": "test",
-                "targetDate": "2019-01-21T17:00:00.000Z",
-                "title": "test",
-                "doneDate": "2019-01-20T11:54:11.312Z"
+                "id": 5,
+                "description": "description.....",
+                "due_date": "2019-02-01",
+                "priority": 0,
+                "user_id": 11,
+                "created_at": "2019-01-30T06:01:01.000Z",
+                "updated_at": "2019-01-30T07:13:14.000Z"
             }
 
 + Error Response:
@@ -352,16 +360,7 @@ Change user todo completion status (only owned by user)
 
             {
                 error: "Not Authorized!"
-            }
-    
-    OR
-
-    + Code:400
-    + Content:
-
-            {
-                "error": "Bad Request"
-            }
+            }    
 
     OR
 
@@ -373,32 +372,24 @@ Change user todo completion status (only owned by user)
                 "message": "Internal Server Error"
             }
 ---
-## Update
+## Sort the tasks by due date ASC
 ---
-Update user todo (only owned by user)
+(todos only owned by user)
 
 + URL
 
-    api/tasks/ <: todoid_here>
+    api/tasks/duedates/asc
 
 + Method
 
-    PUT
+    GET
 
 + Require:
 
     + header content :
 
             {
-                "jtoken": "token from login user here..."
-            }
-    + body content example :
-
-            {
-                "title": "test",
-                "description": "test",
-                "targetDate": "01/22/2019",
-                "status": "not done"
+                "Authorization": "token from login user here..."
             }
 
 + Success Response:
@@ -406,9 +397,17 @@ Update user todo (only owned by user)
     + Code:200
     + Content:
                 
-            {
-                "message": "Success change task!"
-            }
+            [
+                {
+                    "id": 5,
+                    "description": "description here.....",
+                    "due_date": "2019-02-01",
+                    "priority": 0,
+                    "user_id": 11,
+                    "created_at": "2019-01-30T06:01:01.000Z",
+                    "updated_at": "2019-01-30T06:01:01.000Z"
+                },...
+            ]
                 
 
 + Error Response:
@@ -417,17 +416,8 @@ Update user todo (only owned by user)
     + Content:
 
             {
-                error: "Please login!"
-            }
-    
-    OR
-
-    + Code:400
-    + Content:
-
-            {
-                "error": "Please insert valid Todo Title, or description, or status, or target date! "
-            }
+                error: "Not Authorized!"
+            }    
 
     OR
 
@@ -439,32 +429,24 @@ Update user todo (only owned by user)
                 "message": "Internal Server Error"
             }
 ---
-## Delete
+## Sort the tasks by due date DESC
 ---
-Delete user todo (only owned by user)
+(todos only owned by user)
 
 + URL
 
-    api/tasks/ <: todoid_here>
+    api/tasks/duedates/desc
 
 + Method
 
-    DELETE
+    GET
 
 + Require:
 
     + header content :
 
             {
-                "jtoken": "token from login user here..."
-            }
-    + body content example :
-
-            {
-                "title": "test",
-                "description": "test",
-                "targetDate": "01/22/2019",
-                "status": "not done"
+                "Authorization": "token from login user here..."
             }
 
 + Success Response:
@@ -472,7 +454,17 @@ Delete user todo (only owned by user)
     + Code:200
     + Content:
                 
-            "success delete task on user"
+            [
+                {
+                    "id": 5,
+                    "description": "description here.....",
+                    "due_date": "2019-02-01",
+                    "priority": 0,
+                    "user_id": 11,
+                    "created_at": "2019-01-30T06:01:01.000Z",
+                    "updated_at": "2019-01-30T06:01:01.000Z"
+                },...
+            ]
                 
 
 + Error Response:
@@ -481,8 +473,8 @@ Delete user todo (only owned by user)
     + Content:
 
             {
-                error: "Please login!"
-            }
+                error: "Not Authorized!"
+            }    
 
     OR
 
@@ -490,7 +482,235 @@ Delete user todo (only owned by user)
     + Content:
 
             {
-                error:"Uuupss something wrong, please call developer!"
+                "status": 500,
+                "message": "Internal Server Error"
             }
 ---
+## Sort the tasks by description ASC
+---
+(todos only owned by user)
 
++ URL
+
+    api/tasks/description/asc
+
++ Method
+
+    GET
+
++ Require:
+
+    + header content :
+
+            {
+                "Authorization": "token from login user here..."
+            }
+
++ Success Response:
+
+    + Code:200
+    + Content:
+                
+            [
+                {
+                    "id": 5,
+                    "description": "description here.....",
+                    "due_date": "2019-02-01",
+                    "priority": 0,
+                    "user_id": 11,
+                    "created_at": "2019-01-30T06:01:01.000Z",
+                    "updated_at": "2019-01-30T06:01:01.000Z"
+                },...
+            ]
+                
+
++ Error Response:
+
+    + Code:400
+    + Content:
+
+            {
+                error: "Not Authorized!"
+            }    
+
+    OR
+
+    + Code:500
+    + Content:
+
+            {
+                "status": 500,
+                "message": "Internal Server Error"
+            }
+---
+## Sort the tasks by description DESC
+---
+(todos only owned by user)
+
++ URL
+
+    api/tasks/description/desc
+
++ Method
+
+    GET
+
++ Require:
+
+    + header content :
+
+            {
+                "Authorization": "token from login user here..."
+            }
+
++ Success Response:
+
+    + Code:200
+    + Content:
+                
+            [
+                {
+                    "id": 5,
+                    "description": "description here.....",
+                    "due_date": "2019-02-01",
+                    "priority": 0,
+                    "user_id": 11,
+                    "created_at": "2019-01-30T06:01:01.000Z",
+                    "updated_at": "2019-01-30T06:01:01.000Z"
+                },...
+            ]
+                
+
++ Error Response:
+
+    + Code:400
+    + Content:
+
+            {
+                error: "Not Authorized!"
+            }    
+
+    OR
+
+    + Code:500
+    + Content:
+
+            {
+                "status": 500,
+                "message": "Internal Server Error"
+            }
+---
+## Sort the tasks by priority ASC
+---
+(todos only owned by user)
+
++ URL
+
+    api/tasks/priority/asc
+
++ Method
+
+    GET
+
++ Require:
+
+    + header content :
+
+            {
+                "Authorization": "token from login user here..."
+            }
+
++ Success Response:
+
+    + Code:200
+    + Content:
+                
+            [
+                {
+                    "id": 5,
+                    "description": "description here.....",
+                    "due_date": "2019-02-01",
+                    "priority": 0,
+                    "user_id": 11,
+                    "created_at": "2019-01-30T06:01:01.000Z",
+                    "updated_at": "2019-01-30T06:01:01.000Z"
+                },...
+            ]
+                
+
++ Error Response:
+
+    + Code:400
+    + Content:
+
+            {
+                error: "Not Authorized!"
+            }    
+
+    OR
+
+    + Code:500
+    + Content:
+
+            {
+                "status": 500,
+                "message": "Internal Server Error"
+            }
+---
+## Sort the tasks by priority DESC
+---
+(todos only owned by user)
+
++ URL
+
+    api/tasks/priority/desc
+
++ Method
+
+    GET
+
++ Require:
+
+    + header content :
+
+            {
+                "Authorization": "token from login user here..."
+            }
+
++ Success Response:
+
+    + Code:200
+    + Content:
+                
+            [
+                {
+                    "id": 5,
+                    "description": "description here.....",
+                    "due_date": "2019-02-01",
+                    "priority": 0,
+                    "user_id": 11,
+                    "created_at": "2019-01-30T06:01:01.000Z",
+                    "updated_at": "2019-01-30T06:01:01.000Z"
+                },...
+            ]
+                
+
++ Error Response:
+
+    + Code:400
+    + Content:
+
+            {
+                error: "Not Authorized!"
+            }    
+
+    OR
+
+    + Code:500
+    + Content:
+
+            {
+                "status": 500,
+                "message": "Internal Server Error"
+            }
+---

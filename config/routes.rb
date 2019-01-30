@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
-  resources :tasks, defaults: {format: :json}
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  # USER ROUTES
   post 'user', to: 'users#create', defaults: {format: :json}
   post 'signin', to: 'authentication#authenticate', defaults: {format: :json}
   
+  #TASK ROUTES
+  get 'tasks', to: 'tasks#index', defaults: {format: :json}
+  post 'tasks', to: 'tasks#create', defaults: {format: :json}
+  get 'tasks/:id', to: 'tasks#show', defaults: {format: :json}
   patch 'tasks/changestatus/:id', to: 'tasks#changestatus', defaults: {format: :json}
   get 'tasks/duedates/asc', to: 'tasks#index_duedates_asc', defaults: {format: :json}
   get 'tasks/duedates/desc', to: 'tasks#index_duedates_desc', defaults: {format: :json}

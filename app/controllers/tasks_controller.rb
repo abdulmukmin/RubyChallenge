@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
-  before_action :authorize_task, only: [:show, :update, :destroy, :changestatus]
-  before_action :set_task, only: [:show, :update, :destroy, :changestatus]
+  before_action :authorize_task, only: [:show, :changestatus]
+  before_action :set_task, only: [:show, :changestatus]
 
 
   # GET /tasks
@@ -76,24 +76,6 @@ class TasksController < ApplicationController
         render json: @task.errors, status: :unprocessable_entity
       end
     end
-  end
-
-  # PATCH/PUT /tasks/1
-  def update
-    if validate_date
-      render json: {status: 400, message: "The minimum date that can be inputted is today"}, status: 400
-    else
-      if @task.update(task_params)
-        render json: @task
-      else
-        render json: @task.errors, status: :unprocessable_entity
-      end
-    end
-  end
-
-  # DELETE /tasks/1
-  def destroy
-    @task.destroy
   end
 
   private
