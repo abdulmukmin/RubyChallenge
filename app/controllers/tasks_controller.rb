@@ -71,7 +71,7 @@ class TasksController < ApplicationController
       @task.user_id = current_user.id
   
       if @task.save
-        render json: @task, status: :created, location: @task
+        render json: @task, status: :created
       else
         render json: @task.errors, status: :unprocessable_entity
       end
