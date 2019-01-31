@@ -116,6 +116,14 @@ Sign in user
 ---
 Create new personal todo
 
+Attention!
+
+    Priority is from 0 to 3
+    0 equal to None
+    1 equal to Low
+    2 equal to Medium
+    3 equal to High
+
 + URL
 
     api/tasks
