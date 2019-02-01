@@ -56,7 +56,6 @@ class TasksController < ApplicationController
       @task["status"] = "done"
     else 
       @task["status"] = "not done"
-      @task.save
     end
     @task.save
     render json: @task
